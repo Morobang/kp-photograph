@@ -190,7 +190,7 @@ const [featuredPhotos, allPhotos, services, testimonials, categories, featuredVi
         K.P_PHO
       </span>
       <span className="text-paper/70 inline-block break-words">
-        TOGraph
+        TOGRAPH
       </span>
     </h1>
 
