@@ -10,16 +10,6 @@ import Image from 'next/image'
 
 const [categoryList, setCategoryList] = useState<{name: string, slug: string}[]>([])
 
-useEffect(() => {
-  const supabase = createBrowserClient()
-  supabase
-    .from('categories')
-    .select('name, slug')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true })
-    .then(({ data }) => setCategoryList(data ?? []))
-}, [])
-
 export default function AdminPhotosPage() {
   const { loading, authenticated } = useAuth()
   const supabase = createBrowserClient()
@@ -33,6 +23,18 @@ export default function AdminPhotosPage() {
   const [file, setFile] = useState<File | null>(null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+
+
+    useEffect(() => {
+    const supabase = createBrowserClient()
+    supabase
+        .from('categories')
+        .select('name, slug')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
+        .then(({ data }) => setCategoryList(data ?? []))
+    }, [])
+
 
   function getUrl(path: string) {
     return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/photos/${path}`
