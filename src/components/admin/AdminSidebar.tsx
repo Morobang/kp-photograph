@@ -71,6 +71,24 @@ const navItems = [
       </svg>
     ),
   },
+  {
+  href: '/admin/videos',
+  label: 'Videos',
+  icon: (
+    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+      <path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.82v6.36a1 1 0 0 1-1.447.89L15 14M3 8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V8z" />
+    </svg>
+  ),
+},
+{
+  href: '/admin/before-after',
+  label: 'Before & After',
+  icon: (
+    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+      <path d="M8 9l-4 3 4 3M16 9l4 3-4 3M12 3v18" />
+    </svg>
+  ),
+},
 ]
 
 export default function AdminSidebar() {

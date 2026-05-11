@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Photo, Category } from '@/lib/types'
 import { getPhotoUrl } from '@/lib/supabase'
@@ -15,31 +15,89 @@ export default function Gallery({
   const [active, setActive] = useState('all')
   const [lightbox, setLightbox] = useState<Photo | null>(null)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  const touchStart = useRef<number>(0)
 
   const filtered = active === 'all'
     ? photos
     : photos.filter(p => p.category.toLowerCase() === active.toLowerCase())
 
-  function openLightbox(photo: Photo, index: number) {
+  // ✅ FIXED: Single openLightbox function with tracking
+  async function openLightbox(photo: Photo, index: number) {
     setLightbox(photo)
     setLightboxIndex(index)
+    
+    // Track the view (silent, won't break UI if fails)
+    try {
+      await fetch('/api/track-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ photo_id: photo.id }),
+      })
+    } catch (error) {
+      // Silent fail - tracking shouldn't break user experience
+      console.debug('Tracking failed:', error)
+    }
   }
 
   function prev() {
     const newIndex = (lightboxIndex - 1 + filtered.length) % filtered.length
     setLightbox(filtered[newIndex])
     setLightboxIndex(newIndex)
+    
+    // Optional: Track navigation
+    trackView(filtered[newIndex].id)
   }
 
   function next() {
     const newIndex = (lightboxIndex + 1) % filtered.length
     setLightbox(filtered[newIndex])
     setLightboxIndex(newIndex)
+    
+    // Optional: Track navigation
+    trackView(filtered[newIndex].id)
+  }
+
+  // Helper function for tracking
+  async function trackView(photoId: string) {
+    try {
+      await fetch('/api/track-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ photo_id: photoId }),
+      })
+    } catch (error) {
+      console.debug('Tracking failed:', error)
+    }
+  }
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    if (!lightbox) return
+    
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'ArrowRight') next()
+      if (e.key === 'ArrowLeft') prev()
+      if (e.key === 'Escape') setLightbox(null)
+    }
+    
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [lightbox, lightboxIndex, filtered])
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStart.current - e.changedTouches[0].clientX
+    if (diff > 50) next()
+    if (diff < -50) prev()
   }
 
   return (
     <>
-      {/* Filter tabs — dynamic from Supabase */}
+      {/* Filter tabs */}
       <div className="flex flex-wrap gap-2 mb-8 md:mb-12">
         <button
           onClick={() => setActive('all')}
@@ -101,13 +159,12 @@ export default function Gallery({
         </div>
       )}
 
-      {/* Lightbox with navigation */}
+      {/* Lightbox */}
       {lightbox && (
         <div
           className="fixed inset-0 z-50 bg-ink/97 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
           onClick={() => setLightbox(null)}
         >
-          {/* Close */}
           <button
             onClick={() => setLightbox(null)}
             className="absolute top-5 right-5 text-paper/60 hover:text-paper font-cond text-xs tracking-widest uppercase flex items-center gap-2 z-10"
@@ -115,12 +172,10 @@ export default function Gallery({
             <span className="text-lg">×</span> Close
           </button>
 
-          {/* Counter */}
           <div className="absolute top-5 left-5 font-cond text-xs tracking-widest text-muted">
             {lightboxIndex + 1} / {filtered.length}
           </div>
 
-          {/* Prev arrow */}
           {filtered.length > 1 && (
             <button
               onClick={e => { e.stopPropagation(); prev() }}
@@ -132,7 +187,6 @@ export default function Gallery({
             </button>
           )}
 
-          {/* Next arrow */}
           {filtered.length > 1 && (
             <button
               onClick={e => { e.stopPropagation(); next() }}
@@ -144,10 +198,11 @@ export default function Gallery({
             </button>
           )}
 
-          {/* Image */}
           <div
             className="relative max-w-4xl w-full max-h-[85vh]"
             onClick={e => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
             <div className="relative w-full h-[75vh]">
               <Image

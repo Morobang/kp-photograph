@@ -6,6 +6,8 @@ import SectionLabel from '@/components/SectionLabel'
 import Reveal from '@/components/Reveal'
 import HeroCarousel from '@/components/HeroCarousel'
 import Testimonials from '@/components/Testimonials'
+import VideoReel from '@/components/VideoReel'
+import BeforeAfter from '@/components/BeforeAfter'
 
 async function getFeaturedPhotos(): Promise<Photo[]> {
   const { data } = await supabase
@@ -17,12 +19,30 @@ async function getFeaturedPhotos(): Promise<Photo[]> {
   return data ?? []
 }
 
+async function getFeaturedVideo() {
+  const { data } = await supabase
+    .from('videos')
+    .select('*')
+    .eq('is_featured', true)
+    .single()
+  return data ?? null
+}
+
 async function getCategories() {
   const { data } = await supabase
     .from('categories')
     .select('*')
     .eq('is_active', true)
     .order('sort_order', { ascending: true })
+  return data ?? []
+}
+async function getBeforeAfters() {
+  const { data } = await supabase
+    .from('before_afters')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+    .limit(3)
   return data ?? []
 }
 
@@ -53,12 +73,15 @@ async function getTestimonials() {
 }
 
 export default async function HomePage() {
-  const [featuredPhotos, allPhotos, services, testimonials, categories] = await Promise.all([
+const [featuredPhotos, allPhotos, services, testimonials, categories, featuredVideo, beforeAfters] =
+  await Promise.all([
     getFeaturedPhotos(),
     getAllPhotos(),
     getServices(),
     getTestimonials(),
     getCategories(),
+    getFeaturedVideo(),
+    getBeforeAfters(),
   ])
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -146,6 +169,54 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
+
+      {/* ── VIDEO REEL ── */}
+      {featuredVideo && (
+        <section className="bg-ink px-6 md:px-14 py-20 md:py-28">
+          <Reveal>
+            <SectionLabel text="Showreel" />
+            <h2 className="font-serif font-bold text-3xl md:text-5xl text-paper mb-3" style={{ lineHeight: 1.1 }}>
+              Watch the Work
+            </h2>
+            <p className="font-body font-light text-muted text-sm leading-relaxed max-w-lg mb-10">
+              A glimpse into the shoots, the moments, and the craft behind the lens.
+            </p>
+            <div className="max-w-4xl">
+              <VideoReel video={featuredVideo} supabaseUrl={supabaseUrl} />
+            </div>
+          </Reveal>
+        </section>
+      )}
+
+      {/* ── BEFORE / AFTER ── */}
+      {beforeAfters.length > 0 && (
+        <section className="bg-off px-6 md:px-14 py-20 md:py-28">
+          <Reveal>
+            <SectionLabel text="The Edit" />
+            <h2 className="font-serif font-bold text-3xl md:text-5xl text-paper mb-3" style={{ lineHeight: 1.1 }}>
+              Before & After
+            </h2>
+            <p className="font-body font-light text-muted text-sm leading-relaxed max-w-lg mb-12">
+              The difference a skilled edit makes. Drag the slider to see the transformation.
+            </p>
+          </Reveal>
+          <Reveal delay={150}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {beforeAfters.map(item => (
+                <div key={item.id}>
+                  <BeforeAfter
+                    before={`${supabaseUrl}/storage/v1/object/public/photos/${item.before_path}`}
+                    after={`${supabaseUrl}/storage/v1/object/public/photos/${item.after_path}`}
+                  />
+                  <p className="font-cond text-xs tracking-[0.15em] uppercase text-muted mt-3">
+                    {item.title}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+      )}
       {/* ── SERVICES ── */}
       <section className="bg-ink px-6 md:px-14 py-20 md:py-28">
         <Reveal>
