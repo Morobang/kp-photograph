@@ -11,6 +11,7 @@ import Image from 'next/image'
 const [categoryList, setCategoryList] = useState<{name: string, slug: string}[]>([])
 
 useEffect(() => {
+  const supabase = createBrowserClient()
   supabase
     .from('categories')
     .select('name, slug')
