@@ -90,69 +90,142 @@ const [featuredPhotos, allPhotos, services, testimonials, categories, featuredVi
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-14 pb-16 md:pb-24 overflow-hidden">
-        {/* Featured photos carousel background */}
-        {featuredPhotos.length > 0 ? (
-          <HeroCarousel photos={featuredPhotos} supabaseUrl={supabaseUrl} />
-        ) : (
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_70%_40%,rgba(201,150,42,0.06)_0%,transparent_60%)]" />
-        )}
+<section className="relative min-h-screen flex flex-col justify-end px-4 sm:px-6 md:px-14 pb-16 md:pb-24 overflow-hidden">
+  {/* Enhanced background with animated gradient and glow */}
+  <div className="absolute inset-0 bg-gradient-to-br from-ink via-off to-ink">
+    {/* Animated gradient orb */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[600px] max-h-[600px] rounded-full bg-gold/5 blur-[100px] animate-pulse-slow" />
+    <div className="absolute top-1/3 right-0 w-[60vw] h-[60vw] max-w-[400px] max-h-[400px] rounded-full bg-gold-light/3 blur-[80px] animate-pulse-slower" />
+    
+    {/* Diagonal light rays */}
+    <div className="absolute inset-0 opacity-30">
+      <div className="absolute top-0 left-[20%] w-px h-full bg-gradient-to-b from-gold/0 via-gold/20 to-transparent animate-sweep" />
+      <div className="absolute top-0 left-[50%] w-px h-full bg-gradient-to-b from-gold/0 via-gold/10 to-transparent animate-sweep-delayed" />
+      <div className="absolute top-0 left-[80%] w-px h-full bg-gradient-to-b from-gold/0 via-gold/15 to-transparent animate-sweep-slower" />
+    </div>
+  </div>
 
-        {/* Ghost letterform — only show when no photos */}
-        {featuredPhotos.length === 0 && (
-          <span
-            className="absolute right-0 top-1/2 -translate-y-1/2 font-serif font-black text-[55vw] leading-none pointer-events-none select-none"
-            style={{ color: 'transparent', WebkitTextStroke: '1px rgba(201,150,42,0.05)' }}
-          >
-            K
-          </span>
-        )}
+  {/* Grid pattern overlay */}
+  <div 
+    className="absolute inset-0 opacity-[0.02] pointer-events-none"
+    style={{
+      backgroundImage: `linear-gradient(rgba(201,150,42,0.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(201,150,42,0.1) 1px, transparent 1px)`,
+      backgroundSize: '40px 40px'
+    }}
+  />
 
-        <div className="relative z-10 max-w-3xl animate-fade-up">
-          <p className="flex items-center gap-3 font-cond text-[0.7rem] tracking-[0.3em] uppercase text-gold mb-5 delay-1">
-            <span className="block w-8 h-px bg-gold" />
-            Photography & Visual Storytelling
-          </p>
+  {/* Decorative floating particles */}
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    {[...Array(20)].map((_, i) => (
+      <div
+        key={i}
+        className="absolute rounded-full bg-gold/10 animate-float"
+        style={{
+          width: `${Math.random() * 3 + 1}px`,
+          height: `${Math.random() * 3 + 1}px`,
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 5}s`,
+          animationDuration: `${Math.random() * 10 + 10}s`
+        }}
+      />
+    ))}
+  </div>
 
-          <h1
-            className="font-serif font-black leading-[0.9] tracking-tight mb-6 animate-fade-up delay-2"
-            style={{ fontSize: 'clamp(3.5rem, 10vw, 8rem)' }}
-          >
-            <span className="text-gold-light">K.P_PHO</span>
-            <span className="text-paper/70">TOGraph</span>
-          </h1>
+  {/* Ghost letterform with glow */}
+  {featuredPhotos.length === 0 && (
+    <>
+      <span
+        className="absolute right-0 top-1/2 -translate-y-1/2 font-serif font-black text-[55vw] leading-none pointer-events-none select-none animate-pulse-glow"
+        style={{ 
+          color: 'transparent', 
+          WebkitTextStroke: '1px rgba(201,150,42,0.08)',
+          textShadow: '0 0 30px rgba(201,150,42,0.1)'
+        }}
+      >
+        K
+      </span>
+      {/* Additional decorative letter */}
+      <span
+        className="absolute left-0 bottom-1/4 font-serif font-black text-[30vw] leading-none pointer-events-none select-none opacity-5"
+        style={{ 
+          color: 'transparent', 
+          WebkitTextStroke: '1px rgba(201,150,42,0.05)',
+        }}
+      >
+        P
+      </span>
+    </>
+  )}
 
-          <p
-            className="font-cond font-light tracking-[0.3em] uppercase text-paper/40 mb-10 animate-fade-up delay-3"
-            style={{ fontSize: 'clamp(0.9rem, 2vw, 1.2rem)' }}
-          >
-            Ri Khou Lingedza
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4 animate-fade-up delay-4">
-            <Link
-              href="#portfolio"
-              className="inline-flex items-center gap-3 border border-gold px-6 md:px-8 py-3 md:py-4 font-cond text-xs tracking-[0.2em] uppercase text-gold hover:bg-gold hover:text-ink transition-all duration-300"
-            >
-              View Work
-              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 font-cond text-xs tracking-[0.2em] uppercase text-paper/40 hover:text-gold-light transition-colors duration-300"
-            >
-              Book a Shoot →
-            </Link>
+  {/* Featured photos fallback - cinematic placeholder */}
+  {featuredPhotos.length === 0 && (
+    <div className="absolute inset-0 bg-gradient-to-br from-ink via-off to-ink opacity-60">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative w-48 h-48 md:w-64 md:h-64">
+          <div className="absolute inset-0 border-2 border-gold/20 rounded-full animate-spin-slow" />
+          <div className="absolute inset-[15%] border border-gold/10 rounded-full animate-spin-slower" />
+          <div className="absolute inset-[30%] bg-gold/5 rounded-full animate-pulse-slow blur-md" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-serif text-6xl md:text-7xl text-gold/20 animate-pulse">◈</span>
           </div>
         </div>
+      </div>
+    </div>
+  )}
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-5 z-10">
-          <span className="font-cond text-[0.6rem] tracking-[0.3em] uppercase text-paper/20">Scroll</span>
-          <span className="block w-px h-10 bg-gradient-to-b from-paper/20 to-transparent" />
-        </div>
-      </section>
+  <div className="relative z-10 max-w-3xl animate-fade-up">
+    <p className="flex items-center gap-3 font-cond text-[0.7rem] tracking-[0.3em] uppercase text-gold/80 mb-5 delay-1">
+      <span className="block w-8 h-px bg-gold/60" />
+      Photography & Visual Storytelling
+    </p>
+
+    {/* Responsive heading with better mobile handling */}
+    <h1
+      className="font-serif font-black leading-[0.9] tracking-tight mb-6 animate-fade-up delay-2"
+      style={{ fontSize: 'clamp(2.5rem, 8vw, 8rem)' }}
+    >
+      <span className="text-gold-light inline-block hover:scale-105 transition-transform duration-300">
+        K.P_PHO
+      </span>
+      <span className="text-paper/70 inline-block break-words">
+        TOGraph
+      </span>
+    </h1>
+
+    <p
+      className="font-cond font-light tracking-[0.3em] uppercase text-paper/40 mb-10 animate-fade-up delay-3"
+      style={{ fontSize: 'clamp(0.7rem, 2vw, 1.2rem)' }}
+    >
+      Ri Khou Lingedza
+    </p>
+
+    <div className="flex flex-wrap items-center gap-4 animate-fade-up delay-4">
+      <Link
+        href="#portfolio"
+        className="group relative inline-flex items-center gap-3 border border-gold/60 px-6 md:px-8 py-3 md:py-4 font-cond text-xs tracking-[0.2em] uppercase text-gold hover:text-ink transition-all duration-300 overflow-hidden"
+      >
+        <span className="relative z-10">View Work</span>
+        <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="relative z-10 group-hover:translate-x-1 transition-transform">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+        <span className="absolute inset-0 bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+      </Link>
+      <Link
+        href="/contact"
+        className="inline-flex items-center gap-2 font-cond text-xs tracking-[0.2em] uppercase text-paper/40 hover:text-gold-light transition-all duration-300 hover:gap-3"
+      >
+        Book a Shoot →
+      </Link>
+    </div>
+  </div>
+
+  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-5 z-10">
+    <span className="font-cond text-[0.6rem] tracking-[0.3em] uppercase text-paper/20">Scroll</span>
+    <span className="block w-px h-10 bg-gradient-to-b from-paper/20 to-transparent animate-scroll-pulse" />
+  </div>
+</section>
 
       {/* ── PORTFOLIO ── */}
       <section id="portfolio" className="bg-off px-6 md:px-14 py-20 md:py-28">
