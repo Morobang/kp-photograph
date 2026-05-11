@@ -55,7 +55,7 @@ export default function ContactPage() {
 
             <div className="space-y-7">
               {contactDetails.map(item => (
-                
+                <a
                   key={item.label}
                   href={item.href}
                   target="_blank"
