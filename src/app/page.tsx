@@ -17,6 +17,15 @@ async function getFeaturedPhotos(): Promise<Photo[]> {
   return data ?? []
 }
 
+async function getCategories() {
+  const { data } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+  return data ?? []
+}
+
 async function getAllPhotos(): Promise<Photo[]> {
   const { data } = await supabase
     .from('photos')
@@ -44,11 +53,12 @@ async function getTestimonials() {
 }
 
 export default async function HomePage() {
-  const [featuredPhotos, allPhotos, services, testimonials] = await Promise.all([
+  const [featuredPhotos, allPhotos, services, testimonials, categories] = await Promise.all([
     getFeaturedPhotos(),
     getAllPhotos(),
     getServices(),
     getTestimonials(),
+    getCategories(),
   ])
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -132,7 +142,7 @@ export default async function HomePage() {
           </p>
         </Reveal>
         <Reveal delay={150}>
-          <Gallery photos={allPhotos} />
+          <Gallery photos={allPhotos} categories={categories} />
         </Reveal>
       </section>
 

@@ -27,6 +27,15 @@ const navItems = [
     ),
   },
   {
+    href: '/admin/categories',
+    label: 'Categories',
+    icon: (
+        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path d="M4 6h16M4 10h16M4 14h8M4 18h8" />
+        </svg>
+    ),
+    },
+  {
     href: '/admin/enquiries',
     label: 'Enquiries',
     icon: (

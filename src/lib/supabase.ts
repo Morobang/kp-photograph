@@ -20,3 +20,12 @@ export function getPhotoUrl(storagePath: string): string {
 export function getAvatarUrl(storagePath: string): string {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${storagePath}`
 }
+
+export async function getCategories() {
+  const { data } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+  return data ?? []
+}

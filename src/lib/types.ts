@@ -1,14 +1,21 @@
-export type Category = 'portrait' | 'event' | 'landscape' | 'editorial' | 'general'
+export type Category = {
+  id: string
+  name: string
+  slug: string
+  sort_order: number
+  is_active: boolean
+  created_at: string
+}
 
 export type Photo = {
   id: string
   title: string
   storage_path: string
-  category: Category
+  category: string
   is_featured: boolean
   sort_order: number
   created_at: string
-  url?: string  // derived from storage_path at runtime
+  url?: string
 }
 
 export type Enquiry = {
@@ -29,4 +36,13 @@ export type Service = {
   price_from: number
   sort_order: number
   is_active: boolean
+}
+
+export type Testimonial = {
+  id: string
+  client_name: string
+  service: string
+  quote: string
+  is_approved: boolean
+  created_at: string
 }
