@@ -58,3 +58,33 @@ body::before {
 .delay-3 { animation-delay: 0.6s; }
 .delay-4 { animation-delay: 0.8s; }
 .delay-5 { animation-delay: 1.0s; }
+
+.prose-kp {
+  font-family: var(--font-barlow);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: rgba(245, 240, 232, 0.7);
+}
+
+.prose-kp p { margin-bottom: 1.5rem; }
+.prose-kp h2 {
+  font-family: var(--font-playfair);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f5f0e8;
+  margin: 2.5rem 0 1rem;
+  line-height: 1.2;
+}
+.prose-kp h3 {
+  font-family: var(--font-playfair);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f5f0e8;
+  margin: 2rem 0 0.75rem;
+}
+.prose-kp strong { color: #f5f0e8; font-weight: 400; }
+.prose-kp em { color: #e8b84b; font-style: italic; }
+.prose-kp a { color: #e8b84b; text-decoration: underline; }
+.prose-kp ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+.prose-kp ul li { margin-bottom: 0.5rem; list-style: disc; }

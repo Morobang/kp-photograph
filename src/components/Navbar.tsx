@@ -7,9 +7,10 @@ const links = [
   { href: '/#portfolio', label: 'Portfolio' },
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
+  { href: '/journal', label: 'Journal' },
+  { href: '/booking', label: 'Book' },
   { href: '/contact', label: 'Contact' },
 ]
-
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -54,6 +55,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
+
 
           {/* Desktop CTA */}
           <Link

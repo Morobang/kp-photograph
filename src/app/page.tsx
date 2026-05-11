@@ -8,6 +8,7 @@ import HeroCarousel from '@/components/HeroCarousel'
 import Testimonials from '@/components/Testimonials'
 import VideoReel from '@/components/VideoReel'
 import BeforeAfter from '@/components/BeforeAfter'
+import JournalTeaser from '@/components/JournalTeaser'
 
 async function getFeaturedPhotos(): Promise<Photo[]> {
   const { data } = await supabase
@@ -278,6 +279,9 @@ const [featuredPhotos, allPhotos, services, testimonials, categories, featuredVi
           </Reveal>
         </section>
       )}
+
+      {/* ── JOURNAL TEASER ── */}
+      <JournalTeaser supabaseUrl={supabaseUrl} />
 
       {/* ── CTA STRIP ── */}
       <section className="bg-gold px-6 md:px-14 py-14 md:py-20">

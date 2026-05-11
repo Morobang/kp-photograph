@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase-admin-client'
 
-const navItems = [
+// Group 1: Core Content Management
+const contentItems = [
   {
     href: '/admin/dashboard',
     label: 'Dashboard',
@@ -27,29 +28,60 @@ const navItems = [
     ),
   },
   {
-    href: '/admin/categories',
-    label: 'Categories',
+    href: '/admin/videos',
+    label: 'Videos',
     icon: (
-        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path d="M4 6h16M4 10h16M4 14h8M4 18h8" />
-        </svg>
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.82v6.36a1 1 0 0 1-1.447.89L15 14M3 8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V8z" />
+      </svg>
     ),
-    },
+  },
+  {
+    href: '/admin/before-after',
+    label: 'Before & After',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path d="M8 9l-4 3 4 3M16 9l4 3-4 3M12 3v18" />
+      </svg>
+    ),
+  },
+  {
+    href: '/admin/galleries',
+    label: 'Client Galleries',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    ),
+  },
+]
+
+// Group 2: Business & Services
+const businessItems = [
+  {
+    href: '/admin/services',
+    label: 'Services',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+      </svg>
+    ),
+  },
+  {
+    href: '/admin/bookings',
+    label: 'Bookings',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+      </svg>
+    ),
+  },
   {
     href: '/admin/enquiries',
     label: 'Enquiries',
     icon: (
       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
         <path d="M3 8l7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" />
-      </svg>
-    ),
-  },
-  {
-    href: '/admin/profile',
-    label: 'Profile',
-    icon: (
-      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" />
       </svg>
     ),
   },
@@ -62,33 +94,37 @@ const navItems = [
       </svg>
     ),
   },
+]
+
+// Group 3: Settings & Organization
+const settingsItems = [
   {
-    href: '/admin/services',
-    label: 'Services',
+    href: '/admin/categories',
+    label: 'Categories',
     icon: (
       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        <path d="M4 6h16M4 10h16M4 14h8M4 18h8" />
       </svg>
     ),
   },
   {
-  href: '/admin/videos',
-  label: 'Videos',
-  icon: (
-    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.82v6.36a1 1 0 0 1-1.447.89L15 14M3 8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 0-2-2V8z" />
-    </svg>
-  ),
-},
-{
-  href: '/admin/before-after',
-  label: 'Before & After',
-  icon: (
-    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path d="M8 9l-4 3 4 3M16 9l4 3-4 3M12 3v18" />
-    </svg>
-  ),
-},
+    href: '/admin/blog',
+    label: 'Blog',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+      </svg>
+    ),
+  },
+  {
+    href: '/admin/profile',
+    label: 'Profile',
+    icon: (
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" />
+      </svg>
+    ),
+  },
 ]
 
 export default function AdminSidebar() {
@@ -101,22 +137,16 @@ export default function AdminSidebar() {
     router.push('/admin')
   }
 
-  return (
-    <aside className="w-56 min-h-screen bg-off border-r border-paper/[0.06] flex flex-col">
-      {/* Logo */}
-      <div className="px-6 py-6 border-b border-paper/[0.06]">
-        <p className="font-cond tracking-wider text-sm">
-          <span className="font-semibold text-gold-light">K.P_PHO</span>
-          <span className="font-light text-paper/60">TOGraph</span>
-        </p>
-        <p className="font-cond text-[0.6rem] tracking-[0.2em] uppercase text-muted mt-0.5">
-          Admin Panel
-        </p>
-      </div>
-
-      {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
-        {navItems.map(item => {
+  // Helper to render nav items
+  function NavGroup({ title, items }: { title?: string; items: typeof contentItems }) {
+    return (
+      <div className="mb-6">
+        {title && (
+          <p className="px-3 mb-2 text-[0.6rem] font-cond tracking-[0.2em] uppercase text-muted/60">
+            {title}
+          </p>
+        )}
+        {items.map(item => {
           const active = pathname === item.href
           return (
             <Link
@@ -133,6 +163,28 @@ export default function AdminSidebar() {
             </Link>
           )
         })}
+      </div>
+    )
+  }
+
+  return (
+    <aside className="w-56 min-h-screen bg-off border-r border-paper/[0.06] flex flex-col">
+      {/* Logo */}
+      <div className="px-6 py-6 border-b border-paper/[0.06]">
+        <p className="font-cond tracking-wider text-sm">
+          <span className="font-semibold text-gold-light">K.P_PHO</span>
+          <span className="font-light text-paper/60">TOGraph</span>
+        </p>
+        <p className="font-cond text-[0.6rem] tracking-[0.2em] uppercase text-muted mt-0.5">
+          Admin Panel
+        </p>
+      </div>
+
+      {/* Navigation with Groups */}
+      <nav className="flex-1 px-3 py-6 overflow-y-auto">
+        <NavGroup items={contentItems} />
+        <NavGroup title="Business" items={businessItems} />
+        <NavGroup title="Settings" items={settingsItems} />
       </nav>
 
       {/* Sign out */}
