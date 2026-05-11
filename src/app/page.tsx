@@ -1,12 +1,23 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import { Photo, Service } from '@/lib/types'
 import Gallery from '@/components/Gallery'
 import SectionLabel from '@/components/SectionLabel'
 import Reveal from '@/components/Reveal'
+import HeroCarousel from '@/components/HeroCarousel'
+import Testimonials from '@/components/Testimonials'
 
-async function getPhotos(): Promise<Photo[]> {
+async function getFeaturedPhotos(): Promise<Photo[]> {
+  const { data } = await supabase
+    .from('photos')
+    .select('*')
+    .eq('is_featured', true)
+    .order('sort_order', { ascending: true })
+    .limit(6)
+  return data ?? []
+}
+
+async function getAllPhotos(): Promise<Photo[]> {
   const { data } = await supabase
     .from('photos')
     .select('*')
@@ -23,38 +34,64 @@ async function getServices(): Promise<Service[]> {
   return data ?? []
 }
 
+async function getTestimonials() {
+  const { data } = await supabase
+    .from('testimonials')
+    .select('*')
+    .eq('is_approved', true)
+    .order('created_at', { ascending: false })
+  return data ?? []
+}
+
 export default async function HomePage() {
-  const [photos, services] = await Promise.all([getPhotos(), getServices()])
+  const [featuredPhotos, allPhotos, services, testimonials] = await Promise.all([
+    getFeaturedPhotos(),
+    getAllPhotos(),
+    getServices(),
+    getTestimonials(),
+  ])
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 
   return (
     <>
       {/* ── HERO ── */}
       <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-14 pb-16 md:pb-24 overflow-hidden">
-        {/* Background glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_70%_40%,rgba(201,150,42,0.06)_0%,transparent_60%)]" />
+        {/* Featured photos carousel background */}
+        {featuredPhotos.length > 0 ? (
+          <HeroCarousel photos={featuredPhotos} supabaseUrl={supabaseUrl} />
+        ) : (
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_70%_40%,rgba(201,150,42,0.06)_0%,transparent_60%)]" />
+        )}
 
-        {/* Ghost letterform */}
-        <span
-          className="absolute right-0 top-1/2 -translate-y-1/2 font-serif font-black text-[55vw] leading-none pointer-events-none select-none"
-          style={{ color: 'transparent', WebkitTextStroke: '1px rgba(201,150,42,0.05)' }}
-        >
-          K
-        </span>
+        {/* Ghost letterform — only show when no photos */}
+        {featuredPhotos.length === 0 && (
+          <span
+            className="absolute right-0 top-1/2 -translate-y-1/2 font-serif font-black text-[55vw] leading-none pointer-events-none select-none"
+            style={{ color: 'transparent', WebkitTextStroke: '1px rgba(201,150,42,0.05)' }}
+          >
+            K
+          </span>
+        )}
 
-        <div className="relative max-w-3xl animate-fade-up">
+        <div className="relative z-10 max-w-3xl animate-fade-up">
           <p className="flex items-center gap-3 font-cond text-[0.7rem] tracking-[0.3em] uppercase text-gold mb-5 delay-1">
             <span className="block w-8 h-px bg-gold" />
             Photography & Visual Storytelling
           </p>
 
-          <h1 className="font-serif font-black leading-[0.9] tracking-tight mb-6 animate-fade-up delay-2"
-            style={{ fontSize: 'clamp(3.5rem, 10vw, 8rem)' }}>
+          <h1
+            className="font-serif font-black leading-[0.9] tracking-tight mb-6 animate-fade-up delay-2"
+            style={{ fontSize: 'clamp(3.5rem, 10vw, 8rem)' }}
+          >
             <span className="text-gold-light">K.P_PHO</span>
-            <span className="text-paper/70">TOGRAPH</span>
+            <span className="text-paper/70">TOGraph</span>
           </h1>
 
-          <p className="font-cond font-light tracking-[0.3em] uppercase text-paper/40 mb-10 animate-fade-up delay-3"
-            style={{ fontSize: 'clamp(0.9rem, 2vw, 1.2rem)' }}>
+          <p
+            className="font-cond font-light tracking-[0.3em] uppercase text-paper/40 mb-10 animate-fade-up delay-3"
+            style={{ fontSize: 'clamp(0.9rem, 2vw, 1.2rem)' }}
+          >
             Ri Khou Lingedza
           </p>
 
@@ -77,8 +114,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-5">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-5 z-10">
           <span className="font-cond text-[0.6rem] tracking-[0.3em] uppercase text-paper/20">Scroll</span>
           <span className="block w-px h-10 bg-gradient-to-b from-paper/20 to-transparent" />
         </div>
@@ -95,13 +131,12 @@ export default async function HomePage() {
             A selection of moments captured — portraits, events, landscapes and editorial work from across South Africa.
           </p>
         </Reveal>
-
         <Reveal delay={150}>
-          <Gallery photos={photos} />
+          <Gallery photos={allPhotos} />
         </Reveal>
       </section>
 
-      {/* ── SERVICES TEASER ── */}
+      {/* ── SERVICES ── */}
       <section className="bg-ink px-6 md:px-14 py-20 md:py-28">
         <Reveal>
           <SectionLabel text="Services" />
@@ -120,9 +155,7 @@ export default async function HomePage() {
                 key={service.id}
                 className="group relative bg-ink p-8 md:p-10 border-b md:border-b-0 md:border-r border-paper/[0.06] last:border-0 hover:bg-mid transition-colors duration-300"
               >
-                {/* Top gold line on hover */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
                 <p className="font-serif text-5xl md:text-6xl font-black text-gold/10 leading-none mb-6">
                   {String(i + 1).padStart(2, '0')}
                 </p>
@@ -139,7 +172,6 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-
           <div className="mt-8 flex justify-center md:justify-start">
             <Link
               href="/services"
@@ -150,6 +182,21 @@ export default async function HomePage() {
           </div>
         </Reveal>
       </section>
+
+      {/* ── TESTIMONIALS ── */}
+      {testimonials.length > 0 && (
+        <section className="bg-off px-6 md:px-14 py-20 md:py-28">
+          <Reveal>
+            <div className="text-center mb-12">
+              <SectionLabel text="Kind Words" />
+              <h2 className="font-serif font-bold text-3xl md:text-5xl text-paper mt-3" style={{ lineHeight: 1.1 }}>
+                What Clients Say
+              </h2>
+            </div>
+            <Testimonials testimonials={testimonials} />
+          </Reveal>
+        </section>
+      )}
 
       {/* ── CTA STRIP ── */}
       <section className="bg-gold px-6 md:px-14 py-14 md:py-20">

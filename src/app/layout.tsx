@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Barlow_Condensed, Barlow } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
-import WhatsAppButton from '@/components/WhatsAppButton'
+import ConditionalLayout from '@/components/ConditionalLayout'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -38,10 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${playfair.variable} ${barlowCondensed.variable} ${barlow.variable}`}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <ConditionalLayout>
+          {children}
+        </ConditionalLayout>
       </body>
     </html>
   )
