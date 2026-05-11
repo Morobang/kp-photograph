@@ -149,7 +149,7 @@ export default function ClientGalleryViewer({
                 </div>
                 {/* Download button on hover */}
                 <div className="absolute inset-0 bg-ink/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  
+                  <a
                     href={getUrl(photo.storage_path)}
                     download
                     onClick={e => e.stopPropagation()}
@@ -196,7 +196,7 @@ export default function ClientGalleryViewer({
             <Image src={getUrl(lightbox.storage_path)} alt={lightbox.title ?? ''} fill className="object-contain" sizes="100vw" />
             <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between p-4">
               {lightbox.title && <p className="font-serif text-paper text-sm">{lightbox.title}</p>}
-              
+              <a
                 href={getUrl(lightbox.storage_path)}
                 download
                 className="flex items-center gap-2 bg-gold text-ink font-cond text-[0.65rem] tracking-wider uppercase px-4 py-2 hover:bg-gold-light transition-colors ml-auto"

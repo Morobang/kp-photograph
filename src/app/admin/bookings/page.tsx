@@ -182,7 +182,7 @@ export default function AdminBookingsPage() {
                             Cancel
                           </button>
                         )}
-                        
+                        <a
                           href={`mailto:${booking.email}`}
                           className="font-cond text-[0.65rem] tracking-wider uppercase px-3 py-2 border border-paper/10 text-muted hover:border-gold/30 hover:text-gold transition-colors text-center"
                         >

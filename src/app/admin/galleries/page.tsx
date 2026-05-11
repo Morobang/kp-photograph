@@ -289,7 +289,7 @@ export default function AdminGalleriesPage() {
                   >
                     Manage
                   </button>
-                  
+                  <a
                     href={`/gallery/${gallery.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
