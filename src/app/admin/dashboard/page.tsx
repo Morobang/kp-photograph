@@ -68,7 +68,7 @@ export default function DashboardPage() {
 
         {/* Quick links */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          
+          <a
             href="/admin/photos"
             className="group bg-off border border-paper/[0.06] p-6 hover:border-gold/30 transition-colors duration-300"
           >
@@ -76,7 +76,7 @@ export default function DashboardPage() {
             <p className="font-serif text-xl font-bold text-paper mb-1">Photos</p>
             <p className="font-body font-light text-muted text-sm">Upload new work, manage categories</p>
           </a>
-          
+          <a
             href="/admin/enquiries"
             className="group bg-off border border-paper/[0.06] p-6 hover:border-gold/30 transition-colors duration-300"
           >

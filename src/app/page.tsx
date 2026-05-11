@@ -50,7 +50,7 @@ export default async function HomePage() {
           <h1 className="font-serif font-black leading-[0.9] tracking-tight mb-6 animate-fade-up delay-2"
             style={{ fontSize: 'clamp(3.5rem, 10vw, 8rem)' }}>
             <span className="text-gold-light">K.P_PHO</span>
-            <span className="text-paper/70">TOGraph</span>
+            <span className="text-paper/70">TOGRAPH</span>
           </h1>
 
           <p className="font-cond font-light tracking-[0.3em] uppercase text-paper/40 mb-10 animate-fade-up delay-3"

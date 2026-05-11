@@ -127,7 +127,7 @@ export default function AdminEnquiriesPage() {
                         Mark Booked
                       </button>
                     )}
-                    
+                    <a
                       href={`mailto:${enquiry.email}`}
                       className="font-cond text-[0.65rem] tracking-wider uppercase px-3 py-2 border border-paper/10 text-muted hover:border-paper/30 hover:text-paper transition-colors text-center"
                     >
