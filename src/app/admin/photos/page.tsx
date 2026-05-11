@@ -7,14 +7,13 @@ import { createBrowserClient } from '@/lib/supabase-admin-client'
 import { Photo } from '@/lib/types'
 import Image from 'next/image'
 
-
-const [categoryList, setCategoryList] = useState<{name: string, slug: string}[]>([])
-
 export default function AdminPhotosPage() {
   const { loading, authenticated } = useAuth()
   const supabase = createBrowserClient()
   const fileRef = useRef<HTMLInputElement>(null)
 
+  // ✅ MOVED INSIDE COMPONENT - All useState hooks must be inside
+  const [categoryList, setCategoryList] = useState<{name: string, slug: string}[]>([])
   const [photos, setPhotos] = useState<Photo[]>([])
   const [uploading, setUploading] = useState(false)
   const [category, setCategory] = useState('portrait')
@@ -24,17 +23,16 @@ export default function AdminPhotosPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-
-    useEffect(() => {
+  // Fetch categories
+  useEffect(() => {
     const supabase = createBrowserClient()
     supabase
-        .from('categories')
-        .select('name, slug')
-        .eq('is_active', true)
-        .order('sort_order', { ascending: true })
-        .then(({ data }) => setCategoryList(data ?? []))
-    }, [])
-
+      .from('categories')
+      .select('name, slug')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true })
+      .then(({ data }) => setCategoryList(data ?? []))
+  }, [])
 
   function getUrl(path: string) {
     return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/photos/${path}`
@@ -176,17 +174,17 @@ export default function AdminPhotosPage() {
 
               <div className="space-y-2">
                 <label className="block font-cond text-[0.65rem] tracking-[0.2em] uppercase text-muted">Category</label>
-                    <select
-                    value={category}
-                    onChange={e => setCategory(e.target.value)}
-                    className="w-full bg-paper/[0.03] border border-paper/10 text-paper font-body font-light text-sm px-4 py-3 focus:outline-none focus:border-gold transition-colors appearance-none"
-                    >
-                    {categoryList.map(c => (
-                        <option key={c.slug} value={c.slug} className="bg-ink">
-                        {c.name}
-                        </option>
-                    ))}
-                    </select>
+                <select
+                  value={category}
+                  onChange={e => setCategory(e.target.value)}
+                  className="w-full bg-paper/[0.03] border border-paper/10 text-paper font-body font-light text-sm px-4 py-3 focus:outline-none focus:border-gold transition-colors appearance-none"
+                >
+                  {categoryList.map(c => (
+                    <option key={c.slug} value={c.slug} className="bg-ink">
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {error && <p className="font-cond text-xs tracking-wider text-red-400">{error}</p>}
