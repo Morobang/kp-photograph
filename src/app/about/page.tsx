@@ -1,6 +1,15 @@
+import { supabase } from '@/lib/supabase'
 import SectionLabel from '@/components/SectionLabel'
 import Reveal from '@/components/Reveal'
 import Link from 'next/link'
+import Image from 'next/image'
+
+async function getProfilePhoto(): Promise<string | null> {
+  const { data } = await supabase.storage.from('avatars').list('')
+  const portrait = data?.find(f => f.name.startsWith('portrait'))
+  if (!portrait) return null
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${portrait.name}`
+}
 
 const stats = [
   { num: '5+', label: 'Years Active' },
@@ -9,24 +18,33 @@ const stats = [
   { num: 'ZA', label: 'Based In SA' },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const profileUrl = await getProfilePhoto()
+
   return (
     <div className="pt-24 md:pt-32">
-      {/* Hero */}
       <section className="px-6 md:px-14 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
-          {/* Photo placeholder */}
+          {/* Photo */}
           <Reveal className="relative">
             <div className="relative aspect-[3/4] bg-mid overflow-hidden max-w-sm mx-auto lg:mx-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1e1a14] to-[#2e2418]" />
-              <div
-                className="absolute bottom-5 left-5 font-serif font-black text-gold/30"
-                style={{ fontSize: 'clamp(2rem, 6vw, 3rem)' }}
-              >
-                K.P
-              </div>
-              {/* Accent frame */}
+              {profileUrl ? (
+                <Image
+                  src={profileUrl}
+                  alt="K.P_PHOTOGraph"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#1e1a14] to-[#2e2418]" />
+                  <div className="absolute bottom-5 left-5 font-serif font-black text-gold/30 text-5xl">
+                    K.P
+                  </div>
+                </>
+              )}
               <div className="absolute -bottom-4 -right-4 w-3/5 h-3/5 border border-gold/10 -z-10" />
             </div>
           </Reveal>
@@ -47,7 +65,6 @@ export default function AboutPage() {
               "Ri Khou Lingedza — We Capture It."
             </p>
 
-            {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-paper/[0.08]">
               {stats.map(s => (
                 <div key={s.label}>
@@ -64,7 +81,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Approach */}
+      {/* Approach section stays exactly the same */}
       <section className="bg-off px-6 md:px-14 py-20 md:py-28">
         <div className="max-w-7xl mx-auto">
           <Reveal>
@@ -73,7 +90,6 @@ export default function AboutPage() {
               How I Work
             </h2>
           </Reveal>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { num: '01', title: 'Listen First', body: 'Every shoot starts with understanding what you want to feel when you look at the photos. Your story drives everything.' },
@@ -90,7 +106,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="px-6 md:px-14 py-20 md:py-28 text-center">
         <Reveal>
           <p className="font-cond text-xs tracking-[0.3em] uppercase text-gold mb-4">Ready to work together?</p>
