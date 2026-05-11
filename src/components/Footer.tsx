@@ -13,7 +13,7 @@ export default function Footer() {
         </div>
 
         <div className="flex items-center gap-6">
-          
+          <a
             href="https://instagram.com/kp_photograph"
             target="_blank"
             rel="noopener noreferrer"
@@ -22,6 +22,7 @@ export default function Footer() {
             Instagram
           </a>
           
+          <a
             href="https://wa.me/27000000000"
             target="_blank"
             rel="noopener noreferrer"
