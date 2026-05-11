@@ -103,7 +103,7 @@ export default function ClientGalleryViewer({
           </div>
 
           <p className="font-body text-xs text-muted/40 mt-8">
-            Password sent to your email by K.P_PHOTOGraph
+            Password sent to your email by K.P_PHOTOGRAPH
           </p>
         </div>
       </div>

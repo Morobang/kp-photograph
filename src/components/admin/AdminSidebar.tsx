@@ -173,7 +173,7 @@ export default function AdminSidebar() {
       <div className="px-6 py-6 border-b border-paper/[0.06]">
         <p className="font-cond tracking-wider text-sm">
           <span className="font-semibold text-gold-light">K.P_PHO</span>
-          <span className="font-light text-paper/60">TOGraph</span>
+          <span className="font-light text-paper/60">TOGRAPH</span>
         </p>
         <p className="font-cond text-[0.6rem] tracking-[0.2em] uppercase text-muted mt-0.5">
           Admin Panel

@@ -33,7 +33,7 @@ export default function Footer() {
         </div>
 
         <p className="font-body text-xs text-muted font-light">
-          © {new Date().getFullYear()} K.P_PHOTOGraph
+          © {new Date().getFullYear()} K.P_PHOTOGRAPH
         </p>
       </div>
     </footer>

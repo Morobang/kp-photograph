@@ -32,7 +32,7 @@ export default async function AboutPage() {
               {profileUrl ? (
                 <Image
                   src={profileUrl}
-                  alt="K.P_PHOTOGraph"
+                  alt="K.P_PHOTOGRAPH"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -56,7 +56,7 @@ export default async function AboutPage() {
               The Eye Behind<br />the Lens
             </h1>
             <p className="font-body font-light text-muted text-sm md:text-base leading-[1.9] mb-4">
-              K.P_PHOTOGraph is a South African visual storyteller with a passion for authentic moments — the kind that don't wait to be framed, they demand to be seized.
+              K.P_PHOTOGRAPH is a South African visual storyteller with a passion for authentic moments — the kind that don't wait to be framed, they demand to be seized.
             </p>
             <p className="font-body font-light text-muted text-sm md:text-base leading-[1.9] mb-4">
               From intimate portraits in Limpopo to high-energy events across Gauteng, every shoot is guided by one principle:

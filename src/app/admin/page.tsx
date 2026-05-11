@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-10">
           <p className="font-cond tracking-widest text-lg mb-1">
             <span className="font-semibold text-gold-light">K.P_PHO</span>
-            <span className="font-light text-paper/70">TOGraph</span>
+            <span className="font-light text-paper/70">TOGRAPH</span>
           </p>
           <p className="font-cond text-[0.65rem] tracking-[0.3em] uppercase text-muted">
             Admin Access
@@ -85,7 +85,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="text-center font-cond text-[0.6rem] tracking-widest uppercase text-muted/40 mt-10">
-          K.P_PHOTOGraph © {new Date().getFullYear()}
+          K.P_PHOTOGRAPH © {new Date().getFullYear()}
         </p>
       </div>
     </div>

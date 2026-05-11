@@ -23,10 +23,10 @@ const barlow = Barlow({
 })
 
 export const metadata: Metadata = {
-  title: 'K.P_PHOTOGraph | Ri Khou Lingedza',
+  title: 'K.P_PHOTOGRAPH | Ri Khou Lingedza',
   description: 'South African visual storyteller. Portraits, events, editorial and commercial photography.',
   openGraph: {
-    title: 'K.P_PHOTOGraph',
+    title: 'K.P_PHOTOGRAPH',
     description: 'Ri Khou Lingedza — We Capture It.',
     type: 'website',
   },

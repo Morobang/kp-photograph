@@ -39,7 +39,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-baseline gap-0 font-cond tracking-widest text-sm">
             <span className="font-semibold text-gold-light">K.P_PHO</span>
-            <span className="font-light text-paper/80">TOGraph</span>
+            <span className="font-light text-paper/80">TOGRAPH</span>
           </Link>
 
           {/* Desktop links */}
