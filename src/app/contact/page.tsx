@@ -20,8 +20,8 @@ const contactDetails = [
       </svg>
     ),
     label: 'WhatsApp / Call',
-    value: '+27 XX XXX XXXX',
-    href: 'https://wa.me/27000000000',
+    value: '+27 79 390 7889',
+    href: 'https://wa.me/27793907889',
   },
   {
     icon: (
